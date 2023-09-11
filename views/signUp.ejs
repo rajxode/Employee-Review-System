@@ -1,0 +1,33 @@
+<div class="w-100 h-100 d-flex justify-content-center align-items-center">
+    <form action="/sign-up" method="GET" class="w-50 bg-secondary-subtle p-2 mt-4 shadow rounded">
+        <div class="text-center">
+            <h1 class="text-primary">
+                Sign Up
+            </h1>
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" name="name" id="name" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">
+          <label for="password-first" class="form-label">Password</label>
+          <input type="password" class="form-control" name="password-first" id="password-first" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">
+          <label for="password-cnf" class="form-label">Confirm Password</label>
+          <input type="password" class="form-control" name="password-cnf" id="password-cnf">
+        </div>
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+        <div class="text-center">
+            <p>
+                Already have an accout, 
+                <a href="/">Sign In</a>
+                instead. 
+            </p>
+        </div>
+    </form>
+</div>
