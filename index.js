@@ -7,14 +7,18 @@ const {PORT} = process.env;
 
 const app = express();
 
+const cookieParser = require('cookie-parser')
+
+// importing layouts 
+const expressLayouts =  require('express-ejs-layouts');
+
 app.use(express.json());
 app.use(express.urlencoded({
     extended:true
 })); 
 app.use(express.static('assets'));
 
-// importing layouts 
-const expressLayouts =  require('express-ejs-layouts');
+app.use(cookieParser());
 
 // using layouts
 
