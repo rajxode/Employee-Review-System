@@ -1,0 +1,25 @@
+<div class="w-100 h-100 d-flex justify-content-center align-items-center">
+    <form action="/sign-in" method="GET" class="w-50 bg-secondary-subtle p-2 mt-4 shadow rounded">
+        <div class="text-center">
+            <h1 class="text-primary">
+                Login
+            </h1>
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email address</label>
+          <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" name="password" id="password">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <div class="text-center">
+            <p>
+                Don't have an accout, 
+                <a href="/sign-up">Sign Up</a>
+                instead. 
+            </p>
+        </div>
+    </form>
+</div>
