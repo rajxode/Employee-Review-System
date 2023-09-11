@@ -1,6 +1,6 @@
 
 require('dotenv').config();
-
+require('./config/mongoose').connect();
 const express = require('express');
 
 const {PORT} = process.env;
@@ -8,13 +8,16 @@ const {PORT} = process.env;
 const app = express();
 
 app.use(express.json());
-app.use(express.urlencoded()); 
+app.use(express.urlencoded({
+    extended:true
+})); 
 app.use(express.static('assets'));
 
 // importing layouts 
 const expressLayouts =  require('express-ejs-layouts');
 
 // using layouts
+
 app.use(expressLayouts);
 
 // extracting stylesheets and scripts for individual pages
