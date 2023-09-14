@@ -12,7 +12,42 @@
 
     <%- include('_header') %>
 
+    <!-- for flash messages -->
+    <% if (flash.success && flash.success.length > 0) { %> 
+        
+        <%= flash.success %>
+        
+    <% } %>
+
     <%- body %>
+
+    <script>
+
+        <% if (flash.success && flash.success.length > 0) { %> 
+            
+            new Noty({
+                theme:'relax',
+                text: '<%= flash.success %>',
+                type:'success',
+                layout:'topRight',
+                timeout:1500
+            }).show();
+
+        <% } %>
+
+        <% if (flash.error && flash.error.length > 0) { %> 
+            
+            new Noty({
+                theme:'relax',
+                text: '<%= flash.error %>',
+                type:'error',
+                layout:'topRight',
+                timeout:1500
+            }).show();
+
+        <% } %>
+
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" 
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" 

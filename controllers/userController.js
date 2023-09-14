@@ -91,13 +91,14 @@ module.exports.createSession = async (req,res) => {
 
                 // store inside the cookie
                 // return json value { cookie, token , user data}
-                res.status(200).cookie("token", token, options).redirect('/dashboard/employee');
+                req.flash('success', 'Logged In successfully');
+                res.status(200).cookie("token", token, options).redirect('/dashboard/admin');
             }
         }
 
 
         // in case user not found or the password doesn't matches
-        console.log('wrong data');
+        req.flash('error','wrong data');
         return res.redirect('back');        
     } catch (error) {
         
@@ -123,6 +124,7 @@ module.exports.signout = async (req,res) => {
         req.user = null;
         // delete token from header
         delete req.header["Authorization"];
+        req.flash('success','Logged out successfully')
         return res.status(200).redirect('/');
     }
 

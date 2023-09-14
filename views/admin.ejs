@@ -1,3 +1,20 @@
 <h1>
     This is admin dashboard
 </h1>
+
+<div class="w-100 h-100 d-flex p-3 justify-content-start">
+    <% for (let i of employee) { %>
+        <div class="card mb-3" style="width: 18rem;">
+            <div class="card-body">
+                <img src="/image/manager.png" alt="profile" style="width: 30px; height: 30px;"/>
+                <h5 class="card-title"><%= i.name %></h5>
+                <p class="card-text"><%= i.email %></p>
+                <a href="#" class="btn btn-primary">Update Info</a>
+                <div class="w-100 mt-1 d-flex justify-content-between">
+                    <a href="#" class="btn btn-primary" style="width: 45%;">Delete</a>
+                    <a href="#" class="btn btn-primary" style="width: 45%;">Position</a>
+                </div>
+            </div>
+        </div>
+    <% } %>
+</div>
