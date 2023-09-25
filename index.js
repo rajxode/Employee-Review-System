@@ -2,6 +2,8 @@
 require('dotenv').config();
 require('./config/mongoose').connect();
 const express = require('express');
+const passportConfig = require('./config/passport_local');
+const passport = require('passport');
 
 const {PORT} = process.env;
 
@@ -37,12 +39,23 @@ app.set('layout extractScripts',true);
 app.set('view engine','ejs');
 app.set('views','./views');
 
+// Use express-session for session management
 app.use(session({
-    secret: 'your-secret-key',
+    secret: process.env.SECRET_KEY, // Replace with your own secret key
     resave: false,
     saveUninitialized: false,
-}));
+    cookie: {
+      maxAge: 24 * 60 * 60 * 1000, // Session duration in milliseconds (1 day in this example)
+      secure: false, // Set this to false to allow the session over HTTP
+    },
+  }));
+  
+// initialize passport
+app.use(passport.initialize());
+// passport sessions
+app.use(passport.session());
 
+app.use(passport.setAuthenticatedUser);
 
 
 // connect-flash middleware

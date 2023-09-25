@@ -1,7 +1,6 @@
 
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 
 module.exports.home = (req,res) => {
     res.render('signIn',{
@@ -18,7 +17,7 @@ module.exports.signUp = (req,res) => {
 
 module.exports.createAccount = async (req,res) => {
     try {
-        let { name, email, password, cnf_password } = req.body;
+        let { name, email, password, cnf_password, role } = req.body;
         email = email.toLowerCase();
         const userExist = await User.findOne({email});
 
@@ -37,73 +36,25 @@ module.exports.createAccount = async (req,res) => {
         const user = await User.create({
             name,
             email,
+            role,
             password:cryptPassword,
         })
 
         console.log('user created');
-        return res.redirect('/');
+        return res.status(201).json({
+            user
+        });
 
     } catch (error) {
         console.log(error);
     }
 }
 
-module.exports.createSession = async (req,res) => {
-
-    try {
-        let { email, password } = req.body;
-        email = email.toLowerCase();
-        // find user by it's email
-        const user = await User.findOne({email});
-
-        // if user found 
-        if( user){
-            // match the password
-            const found = await bcrypt.compare(password, user.password); 
-
-            // if password matches
-            if(found){
-                // generate token
-                const token = jwt.sign(
-                    {user_id: user._id, email},
-                    process.env.SECRET_KEY,
-                    {
-                        expiresIn:"2h"        
-                    }
-                )
-                    
-                // store the token
-                user.token = token;
-                // hide the password
-                user.password = undefined;
-                
-                // store the token inside the cookies
-                // options for cookies
-                const options = {
-                    // time in which the cookie will expire
-                    expires: new Date(
-                        // current day + 3 days ( 3 * 24 hour * 60 min * 60 second * 1000 )
-                        Date.now() + 3 * 24 * 60 * 60 * 1000
-                    ),
-                    // for backend only
-                    httpOnly: true,
-                };
-
-                // store inside the cookie
-                // return json value { cookie, token , user data}
-                req.flash('success', 'Logged In successfully');
-                res.status(200).cookie("token", token, options).redirect('/dashboard/admin');
-            }
-        }
-
-
-        // in case user not found or the password doesn't matches
-        req.flash('error','wrong data');
-        return res.redirect('back');        
-    } catch (error) {
-        
-    }
-
+module.exports.createSession = (req,res) => {
+    const user = req.user;
+    res.status(200).json({
+        user
+    })
 }
 
 module.exports.signout = async (req,res) => {
