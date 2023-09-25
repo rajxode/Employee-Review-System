@@ -1,3 +1,9 @@
 <h1>
     This is employee dashboard
 </h1>
+
+<div>
+    <% if(locals.user) { %>
+        <%= user.name %>
+    <% } %>
+</div>

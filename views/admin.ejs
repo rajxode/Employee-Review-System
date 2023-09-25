@@ -1,5 +1,11 @@
 <h1>
     This is admin dashboard
+    <% if(locals.user) { %>
+        <h1>
+            This is local
+        </h1>
+        <%= user.name %>
+    <% } %>
 </h1>
 
 <div class="w-100 h-100 d-flex p-3 justify-content-start">

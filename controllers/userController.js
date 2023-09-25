@@ -40,11 +40,7 @@ module.exports.createAccount = async (req,res) => {
             password:cryptPassword,
         })
 
-        console.log('user created');
-        return res.status(201).json({
-            user
-        });
-
+        return res.status(201).redirect('/');
     } catch (error) {
         console.log(error);
     }
@@ -52,32 +48,17 @@ module.exports.createAccount = async (req,res) => {
 
 module.exports.createSession = (req,res) => {
     const user = req.user;
-    res.status(200).json({
-        user
-    })
+    if(user.role === 'admin'){
+        return res.redirect('/dashboard/admin');
+    }
+    return res.redirect('/dashboard/employee');
 }
 
 module.exports.signout = async (req,res) => {
-    // getting token from cookie / body
-    const token = req.cookies.token ||
-        req.body.token; 
-
-    // if token found
-    if(token){
-        // remove user's data
-        req.user = null;
-        return res.status(200).clearCookie("token").redirect('/');
-    }
-
-    // checking if token is stored inside header
-    let header = req.header("Authorization");
-    if(header){
-        req.user = null;
-        // delete token from header
-        delete req.header["Authorization"];
-        req.flash('success','Logged out successfully')
-        return res.status(200).redirect('/');
-    }
-
-    return res.redirect('back');
+    req.logout(function(err) {
+        if (err) { 
+            return next(err) 
+        }
+        res.redirect('/');
+    });
 }

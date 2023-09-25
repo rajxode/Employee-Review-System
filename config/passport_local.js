@@ -16,8 +16,8 @@ passport.use(new LocalStrategy(
     {
         usernameField:'email'
     },
-    (email, password, done) => {
-        User.findOne({ email: email })
+    async (email, password, done) => {
+        await User.findOne({ email: email })
         .then(user => {
             // if found
             if(user){
@@ -41,15 +41,13 @@ passport.serializeUser(function(user, done){
 })
 
 // retrieving user information from the session
-passport.deserializeUser(function(id, done){
+passport.deserializeUser(async function(id, done){
     // find user
-    const user = User.findById(id);
-    
+    const user = await User.findById(id);
     // if no user found
     if (!user) {
         return done(new Error('User not found'));
     }
-    
     // if found 
     done(null, user); // Retrieve the user based on the stored ID
     
@@ -66,7 +64,7 @@ passport.checkAuthentication =  function(req,res,next){
     }
 
     // if user is not signed in 
-    return res.redirect('/user/signin');
+    return res.redirect('/');
 }
 
 

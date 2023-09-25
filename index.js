@@ -18,6 +18,8 @@ const expressLayouts =  require('express-ejs-layouts');
 const flash = require('connect-flash');
 const myMware=require('./config/middleware');
 
+const MongoStore = require('connect-mongo');
+
 app.use(express.json());
 app.use(express.urlencoded({
     extended:true
@@ -48,6 +50,9 @@ app.use(session({
       maxAge: 24 * 60 * 60 * 1000, // Session duration in milliseconds (1 day in this example)
       secure: false, // Set this to false to allow the session over HTTP
     },
+    store: MongoStore.create({
+      mongoUrl:process.env.MONGODB_URL
+    })
   }));
   
 // initialize passport
