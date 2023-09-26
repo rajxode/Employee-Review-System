@@ -13,5 +13,6 @@ router.get('/updateForm',passport.checkAuthentication,adminController.updateForm
 router.post('/update',passport.checkAuthentication,adminController.updateEmployee);
 router.get('/addEmployee',passport.checkAuthentication,adminController.addEmployeeForm);
 router.post('/createEmployee',passport.checkAuthentication,adminController.addEmployee);
+router.post('/assignReview',passport.checkAuthentication,adminController.assignReview);
 
 module.exports = router;

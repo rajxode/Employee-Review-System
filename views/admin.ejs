@@ -23,7 +23,8 @@
                 <h5 class="card-title"><%= i.name %></h5>
                 <p class="card-text">Role: <%= i.role %>
                 
-                <a href="#" class="btn btn-warning shadow-sm" style="width: 100%;">Assign Review</a>
+                <button type="button" class="btn btn-warning" data-bs-toggle="modal" 
+                    data-bs-target="#exampleModal" style="width: 100%;">Assign Review</button>
                 
                 <div class="w-100 d-flex justify-content-between">
                     <a href="/dashboard/admin/delete/?id=<%= i._id %>" class="btn btn-danger shadow-sm" style="width: 45%;">Delete</a>
@@ -31,5 +32,45 @@
                 </div>
             </div>
         </div>
+
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">Assign Review</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form method="POST" action="/dashboard/admin/assignReview/?id=<%= i._id %>" id="review-form">
+                    <div class="mb-3">
+                      <label for="recipient-name" class="col-form-label">Reviewer:</label>
+                      <input type="text" class="form-control" id="recipient-name" value="<%= i.email %>" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label for="recipient" class="col-form-label">Recipient:</label>
+                        <select class="form-select" name="recipient" aria-label="Default select example">
+
+                            <% for(let j of employee) { %>
+
+                                <% if ( j._id.toString() !== i._id.toString() ) { %>
+
+                                    <option value="<%= j._id %>" name="recipient" ><%= j.email %></option>
+
+                                <% } %>
+
+                            <% } %>
+
+                        </select>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button form="review-form" type="submit" class="btn btn-primary">Assign Review</button>
+                </div>
+              </div>
+            </div>
+          </div>
     <% } %>
 </div>

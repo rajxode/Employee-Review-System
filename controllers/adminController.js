@@ -83,3 +83,14 @@ module.exports.addEmployee = async(req,res,next) => {
         console.log(error);
     }
 }
+
+
+module.exports.assignReview = async(req,res) => {
+    const employee = await User.findById(req.query.id);
+
+    employee.reviewAssigned.push(req.body.recipient);
+
+    await employee.save();
+
+    res.redirect('back');
+}
