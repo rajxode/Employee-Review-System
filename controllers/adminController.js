@@ -1,5 +1,6 @@
 
 const User = require('../models/User');
+const bcrypt = require('bcryptjs');
 
 module.exports.admin = async (req,res) => {
     
@@ -28,14 +29,57 @@ module.exports.deleteEmployee = async (req,res) => {
     }
 }
 
-module.exports.updateForm =  (req,res) => {
+module.exports.updateForm =  async(req,res) => {
+
+    const employee = await User.findById(req.query.id);
+
     res.render('updateForm',{
         title:"Admin | Update Employee ",
+        employee:employee
     });
 }
+
+module.exports.updateEmployee = async(req,res) => {
+    await User.findByIdAndUpdate(req.query.id, req.body);
+
+    res.redirect('/dashboard/admin');
+}
+
 
 module.exports.addEmployeeForm =  (req,res) => {
     res.render('addEmployee',{
         title:"Admin | Add Employee ",
     });
+}
+
+module.exports.addEmployee = async(req,res,next) => {
+    try {
+        const {name,email,password,cnf_password} = req.body;
+        const role = 'Employee';
+
+        const userExist = await User.findOne({email});
+
+        if(!userExist){
+
+            if(password !== cnf_password ){
+                console.log('password does not match');
+                return res.redirect('back');
+            }
+    
+            const cryptPassword = await bcrypt.hash(password, 10);
+    
+            const user = await User.create({
+                name,
+                email,
+                role,
+                password:cryptPassword,
+            })
+        }
+
+        return res.redirect('/dashboard/admin');
+
+
+    } catch (error) {
+        console.log(error);
+    }
 }

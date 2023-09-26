@@ -25,7 +25,19 @@ const userSchema = new mongoose.Schema(
         role:{
             type:String,
             required:true,
-        }
+        },
+        reviewAssigned:[
+            {
+                type:mongoose.Schema.Types.ObjectId,
+                ref:'User'
+            }
+        ],
+        feedbackByOthers:[
+            {
+                type:mongoose.Schema.Types.ObjectId,
+                ref:'Feedback'
+            },
+        ]
     },
     {
         timestamps:true,
