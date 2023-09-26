@@ -1,76 +1,126 @@
-<h1 class="text-center">
-    Admin dashboard
-</h1>
+<% if(locals.user && locals.user.role ==='Admin') {%>
+  <div class="container-fluid p-4">
 
-<div class="w-100 px-4 d-flex">
+    <div class="w-100">
+      Admin: <%= user.name %>
+      <br/>
+      Admin: <%= user.email %>
+    </div>
 
-    <% if(locals.user) { %>
-        <div>
-            <p>Admin: <%= user.name %></p>
-            <p>Email: <%= user.email %></p>
-        </div>
-    <% } %>
-</div>
+    <h1 class="mx-auto text-center">All employees</h1>
 
-<div class="w-100 h-100 d-flex p-3 justify-content-start flex-wrap">
+    <div class="d-flex flex-wrap justify-content-center justify-content-md-start">
+      <% for (user of employee) {%>
+      <div class="card shadow m-2 bg-secondary-subtle" style="width: 18rem">
+        <div class="card-body">
+          <img
+            src="/image/manager.png"
+            alt=""
+            style="width: 40px"
+          />
+          <h5 class="card-title"><%= user.name %></h5>
+          <h6 class="card-subtitle mb-2 text-secondary"><%= user.email %></h6>
+          <div class="d-flex flex-wrap justify-content-between">
+            
+            <!-- asign review button -->
+            <a
+              href=""
+              class="btn btn-warning mb-1 my-1 shadow"
+              style="width: 100%"
+              data-bs-toggle="modal"
+              data-bs-target="#user<%= user.id %>"
+              data-bs-whatever="@mdo"
+              ><i class="fa-solid fa-file"></i> Assign review</a
+            >
 
-    <% for (let i of employee) { %>
-        <div class="card mb-3 mx-2 bg-secondary-subtle shadow" style="width: 18rem;">
-            <div class="card-body">
-
-                <img src="/image/manager.png" alt="profile" style="width: 30px; height: 30px;"/>
-                
-                <h5 class="card-title"><%= i.name %></h5>
-                <p class="card-text">Role: <%= i.role %>
-                
-                <button type="button" class="btn btn-warning" data-bs-toggle="modal" 
-                    data-bs-target="#exampleModal" style="width: 100%;">Assign Review</button>
-                
-                <div class="w-100 d-flex justify-content-between">
-                    <a href="/dashboard/admin/delete/?id=<%= i._id %>" class="btn btn-danger shadow-sm" style="width: 45%;">Delete</a>
-                    <a href="/dashboard/admin/updateForm/?id=<%= i._id %>" class="btn btn-info shadow-sm" style="width: 45%;">Update</a>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="exampleModalLabel">Assign Review</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <form method="POST" action="/dashboard/admin/assignReview/?id=<%= i._id %>" id="review-form">
+            <!-- delete button -->
+            <a
+              href="/dashboard/admin/delete/?id=<%= user._id %>"
+              class="btn btn-danger mb-1 shadow"
+              style="width: 48%"
+              ><i class="fa-solid fa-trash"></i> Delete</a
+            >
+            <!-- edit button -->
+            <a
+              href="/dashboard/admin/updateForm/?id=<%= user._id %>"
+              class="btn btn-primary mb-1 shadow"
+              style="width: 48%"
+              ><i class="fa-solid fa-pen-to-square"></i> Edit</a
+            >
+  
+            <!-- Modal for assigning review -->
+            <div
+              class="modal fade"
+              id="user<%= user.id %>"
+              tabindex="-1"
+              aria-labelledby="<%= user.id %>"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">
+                      Assign review
+                    </h1>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <form
+                      action="/dashboard/admin/assignReview/?id=<%= user._id %>"
+                      method="POST"
+                    >
                     <div class="mb-3">
-                      <label for="recipient-name" class="col-form-label">Reviewer:</label>
-                      <input type="text" class="form-control" id="recipient-name" value="<%= i.email %>" disabled>
+                      <label class="col-form-label">Reviewer:</label>
+                      <input type="text" class="form-control" value="<%= user.email %>" disabled>
                     </div>
-                    <div class="mb-3">
-                        <label for="recipient" class="col-form-label">Recipient:</label>
-                        <select class="form-select" name="recipient" aria-label="Default select example">
-
-                            <% for(let j of employee) { %>
-
-                                <% if ( j._id.toString() !== i._id.toString() ) { %>
-
-                                    <option value="<%= j._id %>" name="recipient" ><%= j.email %></option>
-
-                                <% } %>
-
-                            <% } %>
-
+  
+                      <div class="mb-3">
+                        <label class="col-form-label"
+                          >Recipient:</label
+                        >
+                        <select
+                          class="form-select"
+                          aria-label="Default select example"
+                          name="recipient"
+                        >
+                          <% for (recipient of employee) {%>
+                          <!-- filter the current user from the list of recipient                -->
+                          <% if(recipient.email !=user.email ){ %>
+                          <option value="<%= recipient._id %>">
+                            <%= recipient.email %>
+                          </option>
+                          } <%} %> <%} %>
                         </select>
-                    </div>
-                  </form>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button form="review-form" type="submit" class="btn btn-primary">Assign Review</button>
+                      </div>
+  
+                      <div class="d-flex justify-content-end">
+                        <button
+                          type="button"
+                          class="btn btn-danger mx-2"
+                          data-bs-dismiss="modal"
+                        >
+                          Cancel
+                        </button>
+                        <button type="" class="btn btn-primary mx-2">
+                          Assign
+                        </button>
+                      </div>
+                    </form>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-    <% } %>
-</div>
+        </div>
+      </div>
+  
+      <%} %>
+    </div>
+  </div>
+  <%} %>
+  

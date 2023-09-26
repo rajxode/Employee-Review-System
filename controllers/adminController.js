@@ -12,7 +12,7 @@ module.exports.admin = async (req,res) => {
             employee:employeeList
         });
     } catch (error) {
-        
+        console.log(error);
     }
 }
 
@@ -86,6 +86,7 @@ module.exports.addEmployee = async(req,res,next) => {
 
 
 module.exports.assignReview = async(req,res) => {
+
     const employee = await User.findById(req.query.id);
 
     if(!employee){
@@ -99,6 +100,6 @@ module.exports.assignReview = async(req,res) => {
     employee.reviewAssigned.push(req.body.recipient);
 
     await employee.save();
-
+    console.log('saVED');
     res.redirect('back');
 }

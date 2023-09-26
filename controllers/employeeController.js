@@ -30,8 +30,6 @@ module.exports.employee = async (req,res) => {
 
 module.exports.addReview = async(req,res) => {
     try {
-        
-        console.log('called');
         const recipient = req.query.id;
         const reviewer = req.user._id;
         const {comment} = req.body;
@@ -51,7 +49,13 @@ module.exports.addReview = async(req,res) => {
 
         const assignedReviews = reviewerEmployee.reviewAssigned;
 
-        const newAssignedReview = assignedReviews.filter((review) => review !== recipient);
+        console.log('id',recipient);
+        assignedReviews.map((rev) => console.log('old',rev.id));
+
+
+        const newAssignedReview = assignedReviews.filter((review) => review.id !== recipient);
+
+        console.log('new',newAssignedReview);
 
         reviewerEmployee.reviewAssigned = newAssignedReview;
 
