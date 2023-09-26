@@ -2,25 +2,63 @@
     Employee dashboard
 </h1>
 
-<div class="w-100 px-5">
+<div class="w-100 px-5 my-2">
 
     <% if(locals.user) { %>
-        <p>Employee Name: <%= user.name %></p>
+        <span>Employee Name: <%= user.name %></span>
         
-        <p>Employee Email: <%= user.email %></p>
+        <span class="float-end">Employee Email: <%= user.email %></span>
     <% } %>
 
 </div>
  
-<div class="w-100 d-flex px-5 justify-content-between align-items-center">
+<div class="w-100 d-flex px-5 mt-2 justify-content-between">
 
     <div class="w-50">
-        Reviews
+        <h2 class="text-center my-2 ">
+            Reviews Assigned to you:
+        </h2>
+        
+        <div class="w-100 d-flex flex-col justify-content-center mt-2 flex-wrap">
+            <% for(let i of assignedEmployee ) { %>
+
+                <div class="border p-2 w-50 rounded shadow m-3">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="exampleModalLabel">Review</h1>
+                        </div>
+                        <div class="modal-body">
+                          <form method="POST" action="/dashboard/employee/addReview/?id=<%= i._id %>" id="review-form">
+                            <div class="mb-3">
+                              <label for="recipient-name" class="col-form-label">Recipient:</label>
+                              <input type="text" class="form-control" id="recipient-name" value="<%= i.email %>" disabled>
+                            </div>
+                            <div class="mb-3">
+                              <label for="message-text" class="col-form-label">Message:</label>
+                              <textarea class="form-control" id="message-text" name="comment" required></textarea>
+                            </div>
+                          </form>
+                        </div>
+                        <div class="modal-footer">
+                          <button form="review-form" type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            <% } %>
+    
+        </div>
+
+        
     </div>
 
 
     <div class="w-50">
-        Feedback
+        <h2 class="text-center my-2">
+            Feedback by others for you
+        </h2>
+        
     </div>
 
 </div>

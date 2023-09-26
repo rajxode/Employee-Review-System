@@ -88,6 +88,14 @@ module.exports.addEmployee = async(req,res,next) => {
 module.exports.assignReview = async(req,res) => {
     const employee = await User.findById(req.query.id);
 
+    if(!employee){
+        return res.redirect('back');
+    }
+
+    if(employee.reviewAssigned.includes(req.body.recipient)){
+        return res.redirect('back');
+    }
+
     employee.reviewAssigned.push(req.body.recipient);
 
     await employee.save();

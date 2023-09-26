@@ -5,6 +5,7 @@ const router = express.Router();
 const passport = require('passport');
 
 
+
 const adminController = require('../controllers/adminController');
 
 router.get('/',passport.checkAuthentication,adminController.admin);

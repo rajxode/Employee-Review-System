@@ -79,6 +79,14 @@ passport.setAuthenticatedUser = function(req,res,next){
     next();
 }
 
+passport.isAdmin = function(req,res,next){
+    if(req.user.role === 'Admin'){
+        next();
+    }
+
+    return res.redirect('back');
+}
+
 
 // exporting passport for outside use
 module.exports = passport;
