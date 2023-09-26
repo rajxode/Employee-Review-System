@@ -1,5 +1,8 @@
 
 const User = require('../models/User');
+
+const Feedback = require('../models/Feedback');
+
 const bcrypt = require('bcryptjs');
 
 module.exports.admin = async (req,res) => {
@@ -33,9 +36,26 @@ module.exports.updateForm =  async(req,res) => {
 
     const employee = await User.findById(req.query.id);
 
+    let feedbackByOther = [];
+    const idofFeedbacks = employee.feedbackByOthers;
+
+    if(idofFeedbacks.length > 0 ){
+
+        for (let index = 0; index < idofFeedbacks.length; index++) {
+            
+            let feedback = await Feedback.findById(idofFeedbacks[index]).populate('reviewer','name');
+
+            if(feedback){
+                feedbackByOther.push(feedback);
+            }
+            
+        }
+    }
+
     res.render('updateForm',{
         title:"Admin | Update Employee ",
-        employee:employee
+        employee:employee,
+        feedbacks:feedbackByOther
     });
 }
 
@@ -100,6 +120,5 @@ module.exports.assignReview = async(req,res) => {
     employee.reviewAssigned.push(req.body.recipient);
 
     await employee.save();
-    console.log('saVED');
     res.redirect('back');
 }

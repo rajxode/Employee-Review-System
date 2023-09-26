@@ -1,6 +1,6 @@
-<div class="w-100 h-100 p-5 d-flex justify-content-between">
+<div class="w-100 h-100 p-5 d-flex justify-content-between flex-wrap">
 
-    <div class="w-50 h-75 d-flex justify-content-center">
+    <div class="col-11 col-md-5 h-75 d-flex justify-content-center">
         <form action="/dashboard/admin/update/?id=<%= employee._id %>" 
             method="POST" 
             class="w-100 h-100 bg-secondary-subtle p-2 mt-4 shadow rounded">
@@ -30,13 +30,28 @@
         </form>
     </div>
 
-    <div class="w-50 d-flex justify-content-center">
-        <h1>
-            Feedback by other
-        </h1>
-        <div>
+    <div class="col-12 col-md-5">
+        <h2 class="text-center my-2">
+            Feedbacks by others for Employee
+        </h2>
 
-        </div>
+        <div class="w-100 d-flex flex-col flex-wrap justify-content-center align-items-center">
+
+        <% for( j of feedbacks ) { %>
+
+          <div class="card w-100 m-2">
+            <div class="card-body">
+              <blockquote class="blockquote mb-0">
+                <p><%= j.comment %></p>
+                <footer class="blockquote-footer"><%= j.reviewer.name %></footer>
+              </blockquote>
+            </div>
+          </div>
+        
+        <% } %>
+
+      </div>
+        
     </div>
 
     

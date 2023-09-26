@@ -1,17 +1,18 @@
 <% if(locals.user && locals.user.role ==='Admin') {%>
   <div class="container-fluid p-4">
 
-    <div class="w-100">
-      Admin: <%= user.name %>
-      <br/>
-      Admin: <%= user.email %>
+    <div class="w-100 fw-semibold text-secondary">
+      <span class="fw-bold text-dark">Admin: </span> 
+      <%= user.name %> | <%= user.email %>
     </div>
+
+    <hr>
 
     <h1 class="mx-auto text-center">All employees</h1>
 
     <div class="d-flex flex-wrap justify-content-center justify-content-md-start">
       <% for (user of employee) {%>
-      <div class="card shadow m-2 bg-secondary-subtle" style="width: 18rem">
+      <div class="card shadow m-2" style="background-color: #F8F0E5; width: 18rem">
         <div class="card-body">
           <img
             src="/image/manager.png"
@@ -38,14 +39,14 @@
               href="/dashboard/admin/delete/?id=<%= user._id %>"
               class="btn btn-danger mb-1 shadow"
               style="width: 48%"
-              ><i class="fa-solid fa-trash"></i> Delete</a
+              ><i class="fa-solid fa-user-minus"></i> Delete</a
             >
             <!-- edit button -->
             <a
               href="/dashboard/admin/updateForm/?id=<%= user._id %>"
               class="btn btn-primary mb-1 shadow"
               style="width: 48%"
-              ><i class="fa-solid fa-pen-to-square"></i> Edit</a
+              ><i class="fa-solid fa-user-pen"></i> Edit</a
             >
   
             <!-- Modal for assigning review -->
