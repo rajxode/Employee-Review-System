@@ -20,7 +20,7 @@
         </h2>
         
         <div class="w-100 d-flex flex-col justify-content-center mt-2 flex-wrap">
-            <% for(let i of assignedEmployee ) { %>
+            <% for(let i of assignReviews ) { %>
 
                 <div class="border p-2 w-50 rounded shadow m-3">
                     <div class="modal-dialog">
@@ -54,10 +54,23 @@
     </div>
 
 
-    <div class="w-50">
+    <div class="w-50 d-flex flex-col flex-wrap justify-content-center">
         <h2 class="text-center my-2">
             Feedback by others for you
         </h2>
+
+        <% for( j of feedbacks ) { %>
+
+          <div class="card w-50">
+            <div class="card-body">
+              <blockquote class="blockquote mb-0">
+                <p><%= j.comment %></p>
+                <footer class="blockquote-footer"><%= j.reviewer.name %></footer>
+              </blockquote>
+            </div>
+          </div>
+        
+        <% } %>
         
     </div>
 

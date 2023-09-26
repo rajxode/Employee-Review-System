@@ -8,7 +8,10 @@ module.exports.employee = async (req,res) => {
     let employeeAssignedForReview = [];
     const idOfAssignReview = req.user.reviewAssigned;
 
-    if(req.user.reviewAssigned.length > 0 ){
+    let feedbackByOther = [];
+    const idofFeedbacks = req.user.feedbackByOthers;
+
+    if(idOfAssignReview.length > 0 ){
 
         for (let index = 0; index < idOfAssignReview.length; index++) {
             
@@ -21,9 +24,23 @@ module.exports.employee = async (req,res) => {
         }
     }
 
+    if(idofFeedbacks.length > 0 ){
+
+        for (let index = 0; index < idofFeedbacks.length; index++) {
+            
+            let feedback = await Feedback.findById(idofFeedbacks[index]).populate('reviewer','name');
+
+            if(feedback){
+                feedbackByOther.push(feedback);
+            }
+            
+        }
+    }
+
     res.render('employee',{
         title:"Employee | Dashboard",
-        assignedEmployee:employeeAssignedForReview
+        assignReviews:employeeAssignedForReview,
+        feedbacks:feedbackByOther
     });
 }
 
@@ -49,13 +66,7 @@ module.exports.addReview = async(req,res) => {
 
         const assignedReviews = reviewerEmployee.reviewAssigned;
 
-        console.log('id',recipient);
-        assignedReviews.map((rev) => console.log('old',rev.id));
-
-
-        const newAssignedReview = assignedReviews.filter((review) => review.id !== recipient);
-
-        console.log('new',newAssignedReview);
+        const newAssignedReview = assignedReviews.filter((review) => JSON.stringify(review) !== JSON.stringify(recipient));
 
         reviewerEmployee.reviewAssigned = newAssignedReview;
 
