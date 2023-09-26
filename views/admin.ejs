@@ -1,25 +1,29 @@
-<h1>
+<h1 class="text-center">
     This is admin dashboard
-    <% if(locals.user) { %>
-        <h1>
-            This is local
-        </h1>
-        <%= user.name %>
-    <% } %>
 </h1>
+
+<div class="w-100 px-4 d-flex">
+
+    <% if(locals.user) { %>
+        <div>
+            <p>Admin: <%= user.name %></p>
+            <p>Email: <%= user.email %></p>
+        </div>
+    <% } %>
+</div>
 
 <div class="w-100 h-100 d-flex p-3 justify-content-start">
 
     <% for (let i of employee) { %>
-        <div class="card mb-3" style="width: 18rem;">
+        <div class="card mb-3 bg-secondary-subtle shadow" style="width: 18rem;">
             <div class="card-body">
                 <img src="/image/manager.png" alt="profile" style="width: 30px; height: 30px;"/>
                 <h5 class="card-title"><%= i.name %></h5>
                 <p class="card-text"><%= i.email %></p>
-                <a href="#" class="btn btn-primary">Update Info</a>
+                <a href="/dashboard/admin/updateForm" class="btn btn-warning">Update Info</a>
                 <div class="w-100 mt-1 d-flex justify-content-between">
-                    <a href="#" class="btn btn-primary" style="width: 45%;">Delete</a>
-                    <a href="#" class="btn btn-primary" style="width: 45%;">Position</a>
+                    <a href="/dashboard/admin/delete/?id=<%= i._id %>" class="btn btn-danger" style="width: 45%;">Delete</a>
+                    <a href="#" class="btn btn-info" style="width: 45%;"><%= i.role %></a>
                 </div>
             </div>
         </div>

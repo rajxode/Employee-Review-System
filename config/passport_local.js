@@ -17,21 +17,21 @@ passport.use(new LocalStrategy(
         usernameField:'email'
     },
     async (email, password, done) => {
-        await User.findOne({ email: email })
-        .then(user => {
-            // if found
-            if(user){
-                if (!bcrypt.compare(password, user.password)) {
-                    return done(null, false, { message: 'Incorrect password.' });
-                }
-                return done(null, user);
+        const user = await User.findOne({ email: email })
+        // if found
+        if(user){
+            const found = await bcrypt.compare(password, user.password);
+            if (!found) {
+                return done(null, false, { message: 'Incorrect password.' });
             }
-            // if user not found
-            else{
-                return done(null, false, { message: 'Incorrect username.' });
-            }
-        })
-      }
+
+            return done(null, user);
+        }
+        // if user not found
+        else{
+            return done(null, false, { message: 'Incorrect username.' });
+        }
+    }
 ));
 
 

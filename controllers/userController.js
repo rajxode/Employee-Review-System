@@ -3,14 +3,32 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 
 module.exports.home = (req,res) => {
-    res.render('signIn',{
+
+    if(req.isAuthenticated()){
+        const user = req.user;
+        if(user.role === 'Admin'){
+            return res.redirect('/dashboard/admin');
+        }
+        return res.redirect('/dashboard/employee');
+    }
+
+    return res.render('signIn',{
         title: "Sign In"
     })
 }
 
 
 module.exports.signUp = (req,res) => {
-    res.render('signUp',{
+
+    if(req.isAuthenticated()){
+        const user = req.user;
+        if(user.role === 'Admin'){
+            return res.redirect('/dashboard/admin');
+        }
+        return res.redirect('/dashboard/employee');
+    }
+
+    return res.render('signUp',{
         title: "Sign Up"
     })
 }
@@ -48,7 +66,7 @@ module.exports.createAccount = async (req,res) => {
 
 module.exports.createSession = (req,res) => {
     const user = req.user;
-    if(user.role === 'admin'){
+    if(user.role === 'Admin'){
         return res.redirect('/dashboard/admin');
     }
     return res.redirect('/dashboard/employee');
