@@ -21,7 +21,6 @@ module.exports.home = (req,res) => {
         return res.redirect('/dashboard/employee');
     }
 
-
     // if user is not logged in 
     // render the sign in page
     return res.render('signIn',{
@@ -69,6 +68,7 @@ module.exports.createAccount = async (req,res) => {
         // if user found 
         if(userExist){
             // redirect to login page
+            req.flash('error','User already exists');
             return res.redirect('/');
         }
 
@@ -78,6 +78,7 @@ module.exports.createAccount = async (req,res) => {
         // if both doesn't match
         if(password !== cnf_password ){
             // redirect back
+            req.flash('error','Password does not match !!');
             return res.redirect('back');
         }
 
@@ -93,6 +94,7 @@ module.exports.createAccount = async (req,res) => {
             password:cryptPassword,
         })
 
+        req.flash('success','New User created, Please login !!');
         // redirect user to login page
         return res.status(201).redirect('/');
 
@@ -107,6 +109,7 @@ module.exports.createAccount = async (req,res) => {
 module.exports.createSession = (req,res) => {
     const user = req.user;
 
+    req.flash('success','Welcome, You are logged in');
     // render the admin page if logged in user is admin
     if(user.role === 'Admin'){
         return res.redirect('/dashboard/admin');
@@ -127,6 +130,7 @@ module.exports.signout = async (req,res) => {
             return next(err) 
         }
 
+        req.flash('success','You are logged out successfully !!');
         // redirect to signin page
         res.redirect('/');
     });

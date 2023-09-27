@@ -9,12 +9,12 @@
     </div>
     <hr>
     <!-- heading -->
-    <h1 class="mx-auto text-center">All employees</h1>
+    <h1 class="mx-auto text-center" style="color: #176B87;">All Employees</h1>
     <!-- list of all the employee -->
     <div class="d-flex flex-wrap justify-content-center justify-content-md-start">
       <% for (user of employee) {%>
         <!-- single employee card -->
-      <div class="card shadow m-2" style="background-color: #F8F0E5; width: 18rem">
+      <div class="card shadow m-2" style="background-color: #D2E0FB; width: 18rem">
         <div class="card-body">
           <!-- image -->
           <img
@@ -31,8 +31,8 @@
             <!-- asign review button -->
             <a
               href=""
-              class="btn btn-warning mb-1 my-1 shadow"
-              style="width: 100%"
+              class="btn mb-1 my-1 shadow text-white"
+              style="width: 100%; background-color: #FF9B82;"
               data-bs-toggle="modal"
               data-bs-target="#user<%= user.id %>"
               data-bs-whatever="@mdo"
@@ -48,8 +48,8 @@
             <!-- edit button -->
             <a
               href="/dashboard/admin/updateForm/?id=<%= user._id %>"
-              class="btn btn-primary mb-1 shadow"
-              style="width: 48%"
+              class="btn text-white mb-1 shadow"
+              style="width: 48%; background-color: #279EFF;"
               ><i class="fa-solid fa-user-pen"></i> Edit</a
             >
   

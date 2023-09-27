@@ -77,6 +77,10 @@ app.use(session({
     })
   }));
   
+// connect-flash middleware
+app.use(flash());
+app.use(myMware.setFlash);
+
 // initialize passport
 app.use(passport.initialize());
 // passport sessions
@@ -84,11 +88,6 @@ app.use(passport.session());
 
 // store the logged in user's data in locals variable
 app.use(passport.setAuthenticatedUser);
-
-
-// connect-flash middleware
-app.use(flash());
-app.use(myMware.setFlash);
 
 // routes
 app.use('/',require('./routes'));

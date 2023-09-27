@@ -38,6 +38,7 @@ module.exports.deleteEmployee = async (req,res) => {
         // find the employee by id and delete
         await User.findByIdAndDelete(id);
 
+        req.flash('success','Employee successfully deleted');
         // redirect to last page
         return res.redirect('back');
     } catch (error) {
@@ -66,8 +67,7 @@ module.exports.updateForm =  async(req,res) => {
         for (let index = 0; index < idofFeedbacks.length; index++) {
             
             // get the feedback from 'Feedback' model based on id stored in employee's data
-            let feedback = await Feedback.findById(idofFeedbacks[index])
-                                            .populate('reviewer','name');
+            let feedback = await Feedback.findById(idofFeedbacks[index]).populate('reviewer','name');
 
             // store the feedback in array
             if(feedback){
@@ -93,6 +93,7 @@ module.exports.updateEmployee = async(req,res) => {
     // find the user by id and update data
     await User.findByIdAndUpdate(req.query.id, req.body);
 
+    req.flash('success','Info Updated !!');
     // redirect to dashboard
     res.redirect('/dashboard/admin');
 }
@@ -127,6 +128,7 @@ module.exports.addEmployee = async(req,res,next) => {
             // if not match
             if(password !== cnf_password ){
                 
+                req.flash('error','Password does not match !!');
                 // return back
                 return res.redirect('back');
             }
@@ -143,6 +145,11 @@ module.exports.addEmployee = async(req,res,next) => {
                 role,
                 password:cryptPassword,
             })
+
+            req.flash('success','New employee created ');
+        }
+        else{
+            req.flash('error','Email address already exist');
         }
 
         // return back to dashboard of admin
@@ -162,15 +169,11 @@ module.exports.assignReview = async(req,res) => {
     // finding user with id in database ( reviewer )
     const employee = await User.findById(req.query.id);
 
-    // if no employee found return back
-    if(!employee){
-        return res.redirect('back');
-    }
 
     // if employee found
     // check whether the user already have the recipient in his assign review list
     if(employee.reviewAssigned.includes(req.body.recipient)){
-        
+        req.flash('error','Recipient already assigned to this user');        
         // return back if recipient already exists
         return res.redirect('back');
     }
@@ -182,6 +185,7 @@ module.exports.assignReview = async(req,res) => {
     // save employee's data
     await employee.save();
 
+    req.flash('success','Review Assigned');
     // redirect back
     res.redirect('back');
 }

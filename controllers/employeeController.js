@@ -41,8 +41,7 @@ module.exports.employee = async (req,res) => {
         for (let index = 0; index < idofFeedbacks.length; index++) {
             
             // getting feedback given from database { comment and user }
-            let feedback = await Feedback.findById(idofFeedbacks[index]).
-                                        populate('reviewer','name');
+            let feedback = await Feedback.findById(idofFeedbacks[index]).populate('reviewer','name');
 
             if(feedback){
                 // store the feedback in array
@@ -101,6 +100,7 @@ module.exports.addReview = async(req,res) => {
         // save reviewer's data
         await reviewerEmployee.save();
 
+        req.flash('success','Your feedback is added !!!');
         // redirect back 
         return res.redirect('back');
 

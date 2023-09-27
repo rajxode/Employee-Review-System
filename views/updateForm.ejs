@@ -6,11 +6,12 @@
     <form
       action="/dashboard/admin/update/?id=<%= employee._id %>"
       method="POST"
-      class="w-100 h-100 bg-secondary-subtle p-2 mt-4 shadow rounded fw-semibold"
+      class="w-100 h-100 p-2 mt-4 shadow rounded fw-semibold"
+      style="background-color: #cceeff;"
     >
         <!-- heading -->
       <div class="text-center">
-        <h1 class="text-primary">Update Employee</h1>
+        <h1 style="color: #176B87;">Update Employee</h1>
       </div>
       <div class="mb-3">
         <!-- for usre's name -->
@@ -66,12 +67,10 @@
     >
       <% for( j of feedbacks ) { %>
 
-      <div class="card w-100 m-2">
+      <div class="card w-100 m-2" style="background-color: #DAF5FF;">
         <div class="card-body">
-            <!-- comment -->
           <blockquote class="blockquote mb-0">
-            <p><%= j.comment %></p>
-            <!-- reviewer -->
+            <p class="fw-semibold"><%= j.comment %></p>
             <footer class="blockquote-footer"><%= j.reviewer.name %></footer>
           </blockquote>
         </div>

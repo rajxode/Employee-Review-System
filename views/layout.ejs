@@ -10,6 +10,13 @@
     <!-- icon -->
     <link rel="icon" type="image/x-icon" href="/image/brand-logo.png" />
 
+    <!-- include noty cdn for css and script-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
+
+    <!-- jquery cdn -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
     <!-- font awesome link -->
     <script
       src="https://kit.fontawesome.com/9c250245e3.js"
@@ -24,18 +31,10 @@
       crossorigin="anonymous"
     />
   </head>
-
-  <body class="container-fluid m-0 p-0" style="background-color: #f0f0f0">
+  <body class="container-fluid m-0 p-0" style="background-color: #E4F1FF">
     
     <!-- navbar of page -->
     <%- include('_header') %>
-
-    <!-- for flash messages -->
-    <!-- <% if (flash.success && flash.success.length > 0) { %> 
-        
-        <%= flash.success %>
-        
-    <% } %> -->
 
     <!-- body content -->
     <%- body %> 
@@ -43,33 +42,34 @@
     <!-- for individual page' script -->
     <%- script%>
 
-    <!-- <script>
+    <script>
 
-        <% if (flash.success && flash.success.length > 0) { %> 
-            
-            new Noty({
-                theme:'relax',
-                text: '<%= flash.success %>',
-                type:'success',
-                layout:'topRight',
-                timeout:1500
-            }).show();
+      <% if (flash.success && flash.success.length > 0) { %> 
+          
+          new Noty({
+              theme:'relax',
+              text: '<%= flash.success %>',
+              type:'success',
+              layout:'topRight',
+              timeout:1500
+          }).show();
 
-        <% } %>
+      <% } %>
 
-        <% if (flash.error && flash.error.length > 0) { %> 
-            
-            new Noty({
-                theme:'relax',
-                text: '<%= flash.error %>',
-                type:'error',
-                layout:'topRight',
-                timeout:1500
-            }).show();
+      <% if (flash.error && flash.error.length > 0) { %> 
+          
+          new Noty({
+              theme:'relax',
+              text: '<%= flash.error %>',
+              type:'error',
+              layout:'topRight',
+              timeout:1500
+          }).show();
 
-        <% } %>
+      <% } %>
 
-    </script> -->
+
+  </script>
 
     <!-- bootstrap script -->
     <script
