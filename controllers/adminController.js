@@ -35,6 +35,12 @@ module.exports.deleteEmployee = async (req,res) => {
         // getting employee's id from query  
         const id = req.query.id;
 
+        // delete all the reviews given by this user
+        await Feedback.deleteMany({reviewer: id});
+
+        // delete all the reviews given to this user
+        await Feedback.deleteMany({recipient: id});
+
         // find the employee by id and delete
         await User.findByIdAndDelete(id);
 
