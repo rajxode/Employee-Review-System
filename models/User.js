@@ -26,20 +26,25 @@ const userSchema = new mongoose.Schema(
             type:String,
             required:true,
         },
+        // reviews assigned to user by admin
         reviewAssigned:[
-            {
+            {   
+                // id of user
                 type:mongoose.Schema.Types.ObjectId,
                 ref:'User'
             }
         ],
+        // feedback given to user by other employee
         feedbackByOthers:[
             {
+                // id of feedback
                 type:mongoose.Schema.Types.ObjectId,
                 ref:'Feedback'
             },
         ]
     },
     {
+        // timestamp
         timestamps:true,
     }
 )

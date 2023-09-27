@@ -1,16 +1,24 @@
 
+// for environment variables
 require('dotenv').config();
+
+// connect to database
 require('./config/mongoose').connect();
+
+// express
 const express = require('express');
+
+// passport local strategy
 const passportConfig = require('./config/passport_local');
+// passport
 const passport = require('passport');
 
-const {PORT} = process.env;
-
-const app = express();
-
+// for parsing the data in cookie
 const cookieParser = require('cookie-parser')
+
+// store the session create by passport
 const session=require('express-session');
+
 // importing layouts 
 const expressLayouts =  require('express-ejs-layouts');
 
@@ -18,18 +26,31 @@ const expressLayouts =  require('express-ejs-layouts');
 const flash = require('connect-flash');
 const myMware=require('./config/middleware');
 
+// store the session in mongostore
 const MongoStore = require('connect-mongo');
 
+// port
+const {PORT} = process.env;
+
+// creatin app
+const app = express();
+
+// middlewares
+
+// for reading json data
 app.use(express.json());
+// for reading url data
 app.use(express.urlencoded({
     extended:true
 })); 
+
+// for static files folder
 app.use(express.static('assets'));
 
+// for parsing the cookies
 app.use(cookieParser());
 
 // using layouts
-
 app.use(expressLayouts);
 
 // extracting stylesheets and scripts for individual pages
@@ -50,6 +71,7 @@ app.use(session({
       maxAge: 24 * 60 * 60 * 1000, // Session duration in milliseconds (1 day in this example)
       secure: false, // Set this to false to allow the session over HTTP
     },
+    // store the session in database
     store: MongoStore.create({
       mongoUrl:process.env.MONGODB_URL
     })
@@ -60,6 +82,7 @@ app.use(passport.initialize());
 // passport sessions
 app.use(passport.session());
 
+// store the logged in user's data in locals variable
 app.use(passport.setAuthenticatedUser);
 
 
@@ -67,6 +90,8 @@ app.use(passport.setAuthenticatedUser);
 app.use(flash());
 app.use(myMware.setFlash);
 
+// routes
 app.use('/',require('./routes'));
 
+// fire up server
 app.listen(PORT,() => console.log(`Server is running on port: ${PORT}`));

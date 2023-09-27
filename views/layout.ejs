@@ -1,27 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- page title -->
     <title><%= title %></title>
 
-    <link
-      rel="icon"
-      type="image/x-icon"
-      href="/image/brand-logo.png"
-    />
+    <!-- icon -->
+    <link rel="icon" type="image/x-icon" href="/image/brand-logo.png" />
 
+    <!-- font awesome link -->
     <script
-        src="https://kit.fontawesome.com/9c250245e3.js"
-        crossorigin="anonymous"
-        ></script>
+      src="https://kit.fontawesome.com/9c250245e3.js"
+      crossorigin="anonymous"
+    ></script>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" 
-        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <!-- bootstrap link -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+  </head>
 
-</head>
-<body class="container-fluid m-0 p-0" style="background-color: #F0F0F0;">
-
+  <body class="container-fluid m-0 p-0" style="background-color: #f0f0f0">
+    
+    <!-- navbar of page -->
     <%- include('_header') %>
 
     <!-- for flash messages -->
@@ -30,10 +36,11 @@
         <%= flash.success %>
         
     <% } %> -->
-    
-    <%- body %>
-    
 
+    <!-- body content -->
+    <%- body %> 
+    
+    <!-- for individual page' script -->
     <%- script%>
 
     <!-- <script>
@@ -64,8 +71,11 @@
 
     </script> -->
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" 
-        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" 
-        crossorigin="anonymous"></script>
-</body>
+    <!-- bootstrap script -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>

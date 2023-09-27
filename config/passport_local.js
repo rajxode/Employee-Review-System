@@ -1,44 +1,62 @@
 
-
+// import passport 
 const passport = require('passport');
 
-
+// import passport strategy
 const LocalStrategy = require('passport-local').Strategy;
 
-
+// for encrypting password
 const bcrypt = require('bcryptjs');
 
-
+// user model for database
 const User = require('../models/User');
 
 
+// creating new Local Strategy
 passport.use(new LocalStrategy(
+    // reading username as email
     {
         usernameField:'email'
     },
+    // callback function
     async (email, password, done) => {
+
+        // finding user with email in side the database
         const user = await User.findOne({ email: email })
-        // if found
+        
+        // if user found
         if(user){
+            // compare user's password with password in database
             const found = await bcrypt.compare(password, user.password);
+            
+            // if password doesn't match
             if (!found) {
+                // return with message
                 return done(null, false, { message: 'Incorrect password.' });
             }
 
+
+            // if password matches continue
             return done(null, user);
         }
+
         // if user not found
         else{
+
+            // return with message
             return done(null, false, { message: 'Incorrect username.' });
         }
+
     }
 ));
 
 
+
 // storing the user information in the session
 passport.serializeUser(function(user, done){
-    done(null, user.id);
+    return done(null, user.id);
 })
+
 
 // retrieving user information from the session
 passport.deserializeUser(async function(id, done){
@@ -49,7 +67,7 @@ passport.deserializeUser(async function(id, done){
         return done(new Error('User not found'));
     }
     // if found 
-    done(null, user); // Retrieve the user based on the stored ID
+    return done(null, user); // Retrieve the user based on the stored ID
     
 })
 
@@ -76,14 +94,24 @@ passport.setAuthenticatedUser = function(req,res,next){
         res.locals.user = req.user;
     }
 
-    next();
+    return next();
 }
 
+
+// checking whether the logged in user is admin or not
 passport.isAdmin = function(req,res,next){
     if(req.user.role === 'Admin'){
-        next();
+        return next();
     }
+    return res.redirect('back');
+}
 
+
+// checking whether the logged in user is an employee
+passport.isEmployee = function(req,res,next){
+    if(req.user.role === 'Employee'){
+        return next();
+    }
     return res.redirect('back');
 }
 
